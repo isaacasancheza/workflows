@@ -5,6 +5,10 @@ on:
           type: string
           required: true
           description: image tag
+        name:
+            type: string
+            required: true
+            description: image name
         context:
           type: string
           required: true
@@ -58,7 +62,7 @@ jobs:
                 id: meta
                 uses: docker/metadata-action@v5
                 with:
-                    images: ${{ env.REGISTRY }}/${{ github.repository }}
+                    images: ${{ env.REGISTRY }}/${{ inputs.name }}
 
             -   name: Set up QEMU
                 uses: docker/setup-qemu-action@v3
@@ -74,7 +78,7 @@ jobs:
                 with:
                     push: true
                     load: true
-                    tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ inputs.tag }}
+                    tags: ${{ env.REGISTRY }}/${{ inputs.name }}:${{ inputs.tag }}
                     context: ${{ inputs.context }}
                     platforms: ${{ inputs.platforms }}
                     build-args: ${{ inputs.build-args }}
