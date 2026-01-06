@@ -9,6 +9,10 @@ on:
           type: string
           required: true
           description: docker build context
+        build-args:
+            type: string
+            required: false
+            description: docker build args
 
 concurrency:
     group: ${{ inputs.tag }}
@@ -43,6 +47,8 @@ jobs:
             -   name: Build and push docker image
                 uses: docker/build-push-action@v6
                 with:
-                    context: ${{ inputs.context }}
                     push: true
+                    load: true
                     tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ inputs.tag }}
+                    context: ${{ inputs.context }}
+                    build-args: ${{ inputs.build-args }}

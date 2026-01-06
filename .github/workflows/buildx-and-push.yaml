@@ -13,6 +13,10 @@ on:
             type: string
             required: true
             description: docker buildx platforms
+        build-args:
+            type: string
+            required: false
+            description: docker build args
 
 concurrency:
     group: ${{ inputs.tag }}
@@ -73,3 +77,4 @@ jobs:
                     tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ inputs.tag }}
                     context: ${{ inputs.context }}
                     platforms: ${{ inputs.platforms }}
+                    build-args: ${{ inputs.build-args }}
